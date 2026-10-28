@@ -17,7 +17,8 @@ const {
   verifyAdminSessionToken,
   requireAdmin,
   validateIssueInput,
-  validateReportInput
+  validateReportInput,
+  assertProductionSecurityConfig
 } = require('./security');
 const {
   isTranslationConfigured,
@@ -30,6 +31,35 @@ function createApp() {
   const app = express();
 
   app.set('trust proxy', 1);
+
+  // Normalize Netlify function path prefix if routed directly or through redirects
+  app.use((req, res, next) => {
+    if (req.url.startsWith('/.netlify/functions/api')) {
+      req.url = req.url.replace(/^\/\.netlify\/functions\/api/, '');
+      if (!req.url.startsWith('/api')) {
+        req.url = '/api' + req.url;
+      }
+    }
+    next();
+  });
+
+  // Ensure security configuration and database are initialized before handling requests
+  app.use(async (req, res, next) => {
+    try {
+      assertProductionSecurityConfig();
+      await db.initDb();
+      next();
+    } catch (err) {
+      console.error('Initialization error:', err.message);
+      res.status(500).json({
+        error: 'SERVER_CONFIGURATION_ERROR',
+        message:
+          process.env.NODE_ENV === 'production'
+            ? 'Server configuration error. Please ensure required environment variables are set.'
+            : err.message
+      });
+    }
+  });
 
   app.use(
     helmet({

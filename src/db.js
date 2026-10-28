@@ -1,9 +1,17 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { DatabaseSync } = require('node:sqlite');
 const { Pool } = require('pg');
 const { initializeApp, getApps, getApp, cert } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
+
+let DatabaseSync = null;
+function getDatabaseSync() {
+  if (!DatabaseSync) {
+    const sqliteModule = require('node:sqlite');
+    DatabaseSync = sqliteModule.DatabaseSync;
+  }
+  return DatabaseSync;
+}
 
 let sqliteDb = null;
 let pgPool = null;
@@ -49,7 +57,22 @@ function initFirebaseAdmin() {
 
   if (getApps().length === 0) {
     if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
-      const certObj = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
+      const raw = process.env.FIREBASE_SERVICE_ACCOUNT_JSON.trim();
+      let certObj;
+      try {
+        certObj = JSON.parse(raw);
+      } catch (err) {
+        try {
+          certObj = JSON.parse(Buffer.from(raw, 'base64').toString('utf8'));
+        } catch {
+          throw new Error(
+            'Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON as JSON or base64 JSON: ' + err.message
+          );
+        }
+      }
+      if (certObj.private_key) {
+        certObj.private_key = certObj.private_key.replace(/\\n/g, '\n');
+      }
       initializeApp({
         credential: cert(certObj),
         projectId: projectId || certObj.project_id
@@ -61,6 +84,9 @@ function initFirebaseAdmin() {
       const certObj = JSON.parse(
         fs.readFileSync(path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_PATH), 'utf8')
       );
+      if (certObj.private_key) {
+        certObj.private_key = certObj.private_key.replace(/\\n/g, '\n');
+      }
       initializeApp({
         credential: cert(certObj),
         projectId: projectId || certObj.project_id
@@ -70,15 +96,42 @@ function initFirebaseAdmin() {
     }
   }
 
-  firestoreDb =
-    databaseId && databaseId !== '(default)'
-      ? getFirestore(getApp(), databaseId)
-      : getFirestore(getApp());
+  if (!firestoreDb) {
+    firestoreDb =
+      databaseId && databaseId !== '(default)'
+        ? getFirestore(getApp(), databaseId)
+        : getFirestore(getApp());
+  }
 
   return { engine: 'firestore', projectId, databaseId };
 }
 
-async function initDb() {
+async function performInitDb() {
+  if (process.env.NODE_ENV === 'production') {
+    const projectId = (process.env.FIREBASE_PROJECT_ID || '').trim();
+    if (!projectId) {
+      throw new Error(
+        'Production configuration error: FIREBASE_PROJECT_ID is required in production. Falling back to local SQLite is disabled in production.'
+      );
+    }
+    const hasServiceAccount =
+      Boolean(
+        process.env.FIREBASE_SERVICE_ACCOUNT_JSON &&
+        process.env.FIREBASE_SERVICE_ACCOUNT_JSON.trim()
+      ) ||
+      Boolean(
+        process.env.FIREBASE_SERVICE_ACCOUNT_PATH &&
+        fs.existsSync(path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_PATH))
+      );
+    if (!hasServiceAccount) {
+      throw new Error(
+        'Production configuration error: FIREBASE_SERVICE_ACCOUNT_JSON (or valid FIREBASE_SERVICE_ACCOUNT_PATH) is required in production. Falling back to local SQLite is disabled in production.'
+      );
+    }
+    dbEngine = 'firestore';
+    return initFirebaseAdmin();
+  }
+
   if (
     process.env.FIREBASE_PROJECT_ID &&
     process.env.FIREBASE_PROJECT_ID.trim().length > 0 &&
@@ -110,7 +163,8 @@ async function initDb() {
     fs.mkdirSync(path.dirname(dbPath), { recursive: true });
   }
 
-  sqliteDb = new DatabaseSync(dbPath);
+  const DB = getDatabaseSync();
+  sqliteDb = new DB(dbPath);
   sqliteDb.exec('PRAGMA journal_mode = WAL;');
   sqliteDb.exec('PRAGMA foreign_keys = ON;');
   sqliteDb.exec('PRAGMA busy_timeout = 5000;');
@@ -172,6 +226,21 @@ async function initDb() {
   `);
 
   return { engine: 'sqlite', path: dbPath };
+}
+
+let initDbPromise = null;
+
+function initDb() {
+  if (initDbPromise) {
+    return initDbPromise;
+  }
+  initDbPromise = Promise.resolve()
+    .then(() => performInitDb())
+    .catch((err) => {
+      initDbPromise = null;
+      throw err;
+    });
+  return initDbPromise;
 }
 
 function getEngineName() {
@@ -1485,6 +1554,7 @@ async function resolveReportsForIssue(issueId) {
 }
 
 async function closeDb() {
+  initDbPromise = null;
   if (pgPool) {
     await pgPool.end();
     pgPool = null;

@@ -19,6 +19,31 @@ function getAdminPassword() {
   return process.env.ADMIN_PASSWORD || 'uwe-rep-admin-2026';
 }
 
+function assertProductionSecurityConfig() {
+  if (process.env.NODE_ENV === 'production') {
+    const cookieSecret = process.env.COOKIE_SECRET;
+    if (
+      !cookieSecret ||
+      cookieSecret === 'dev-fallback-secret-change-in-production-uwe-dsai-2026' ||
+      cookieSecret.trim().length < 16
+    ) {
+      throw new Error(
+        'Production configuration error: COOKIE_SECRET must be configured with a strong secret in production.'
+      );
+    }
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    if (
+      !adminPassword ||
+      adminPassword === 'uwe-rep-admin-2026' ||
+      adminPassword.trim().length < 8
+    ) {
+      throw new Error(
+        'Production configuration error: ADMIN_PASSWORD must be configured with a strong password in production.'
+      );
+    }
+  }
+}
+
 /**
  * Hash a raw token using HMAC-SHA256 with a server-side secret so raw cookie tokens
  * are never stored in the database.
@@ -237,5 +262,6 @@ module.exports = {
   cleanText,
   containsPotentialPII,
   validateIssueInput,
-  validateReportInput
+  validateReportInput,
+  assertProductionSecurityConfig
 };

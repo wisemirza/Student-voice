@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node --no-warnings src/server.js",
     "dev": "node --no-warnings --watch-path=src src/server.js",
-    "test": "node --no-warnings tests/run-tests.js && node --no-warnings tests/browser-e2e.js",
+    "test": "node --no-warnings tests/run-tests.js && node --no-warnings tests/netlify-handler.test.js && node --no-warnings tests/firestore-integration.test.js && node --no-warnings tests/browser-e2e.js",
     "test:api": "node --no-warnings tests/run-tests.js",
     "test:e2e": "node --no-warnings tests/browser-e2e.js"
   },
@@ -21,6 +21,7 @@
     "firebase-admin": "^14.5.0",
     "helmet": "^8.0.0",
     "pg": "^8.13.3",
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "serverless-http": "^4.0.0"
   }
 }
