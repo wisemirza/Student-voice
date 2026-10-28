@@ -53,10 +53,7 @@ function createApp() {
       console.error('Initialization error:', err.message);
       res.status(500).json({
         error: 'SERVER_CONFIGURATION_ERROR',
-        message:
-          process.env.NODE_ENV === 'production'
-            ? 'Server configuration error. Please ensure required environment variables are set.'
-            : err.message
+        message: err.message
       });
     }
   });
@@ -90,11 +87,16 @@ function createApp() {
 
   const isTest = process.env.NODE_ENV === 'test';
 
+  const normalizeClientIp = (req) => {
+    const rawIp = req.ip || (req.socket && req.socket.remoteAddress) || 'unknown-client';
+    return String(rawIp).replace(/^::ffff:/, '').trim();
+  };
+
   // Key on voter token (with IP fallback) so students sharing university/NAT Wi-Fi
   // do not exhaust each other's rate limits
   const getStudentRateLimitKey = (req) => {
     const raw = req.signedCookies && req.signedCookies[VOTER_COOKIE_NAME];
-    return raw ? hashToken(raw) : req.ip;
+    return raw ? hashToken(raw) : normalizeClientIp(req);
   };
 
   const issueSubmitLimiter = rateLimit({
@@ -136,6 +138,7 @@ function createApp() {
   const adminLoginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: isTest ? 100 : 10,
+    keyGenerator: normalizeClientIp,
     standardHeaders: true,
     legacyHeaders: false,
     message: {
@@ -428,11 +431,14 @@ function createApp() {
     }
 
     const sessionToken = createAdminSessionToken();
+    const isSecure =
+      process.env.NODE_ENV === 'production' ||
+      Boolean(process.env.NETLIFY || process.env.LAMBDA_TASK_ROOT || process.env.AWS_LAMBDA_FUNCTION_NAME);
     res.cookie(ADMIN_COOKIE_NAME, sessionToken, {
       httpOnly: true,
       signed: true,
       sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
+      secure: isSecure,
       maxAge: 8 * 60 * 60 * 1000,
       path: '/'
     });

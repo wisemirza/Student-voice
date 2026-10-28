@@ -5,6 +5,10 @@
 [build.environment]
   NODE_VERSION = "22"
   AWS_LAMBDA_JS_RUNTIME = "nodejs22.x"
+  NODE_ENV = "production"
+  PUBLIC_BASE_URL = "https://studentvc.netlify.app"
+  FIREBASE_PROJECT_ID = "studio-9101762883-d0a0e"
+  FIREBASE_DATABASE_ID = "student-voice-db"
 
 [functions]
   node_bundler = "esbuild"

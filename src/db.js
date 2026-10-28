@@ -52,8 +52,8 @@ function getSqlitePath() {
 }
 
 function initFirebaseAdmin() {
-  const projectId = (process.env.FIREBASE_PROJECT_ID || '').trim();
-  const databaseId = (process.env.FIREBASE_DATABASE_ID || '(default)').trim();
+  const projectId = (process.env.FIREBASE_PROJECT_ID || 'studio-9101762883-d0a0e').trim();
+  const databaseId = (process.env.FIREBASE_DATABASE_ID || 'student-voice-db').trim();
 
   if (getApps().length === 0) {
     if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
@@ -107,8 +107,14 @@ function initFirebaseAdmin() {
 }
 
 async function performInitDb() {
-  if (process.env.NODE_ENV === 'production') {
-    const projectId = (process.env.FIREBASE_PROJECT_ID || '').trim();
+  const isServerless = Boolean(
+    process.env.NETLIFY ||
+    process.env.LAMBDA_TASK_ROOT ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME
+  );
+
+  if (process.env.NODE_ENV === 'production' || isServerless) {
+    const projectId = (process.env.FIREBASE_PROJECT_ID || 'studio-9101762883-d0a0e').trim();
     if (!projectId) {
       throw new Error(
         'Production configuration error: FIREBASE_PROJECT_ID is required in production. Falling back to local SQLite is disabled in production.'
@@ -125,7 +131,7 @@ async function performInitDb() {
       );
     if (!hasServiceAccount) {
       throw new Error(
-        'Production configuration error: FIREBASE_SERVICE_ACCOUNT_JSON (or valid FIREBASE_SERVICE_ACCOUNT_PATH) is required in production. Falling back to local SQLite is disabled in production.'
+        'Production configuration error: FIREBASE_SERVICE_ACCOUNT_JSON is required in Netlify production. Falling back to local SQLite is disabled in serverless environments.'
       );
     }
     dbEngine = 'firestore';

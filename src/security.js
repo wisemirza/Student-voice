@@ -20,7 +20,12 @@ function getAdminPassword() {
 }
 
 function assertProductionSecurityConfig() {
-  if (process.env.NODE_ENV === 'production') {
+  const isServerless = Boolean(
+    process.env.NETLIFY ||
+    process.env.LAMBDA_TASK_ROOT ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME
+  );
+  if (process.env.NODE_ENV === 'production' || isServerless) {
     const cookieSecret = process.env.COOKIE_SECRET;
     if (
       !cookieSecret ||
@@ -60,13 +65,16 @@ function hashToken(rawToken) {
  */
 function getOrCreateVoterToken(req, res) {
   let token = req.signedCookies && req.signedCookies[VOTER_COOKIE_NAME];
+  const isSecure =
+    process.env.NODE_ENV === 'production' ||
+    Boolean(process.env.NETLIFY || process.env.LAMBDA_TASK_ROOT || process.env.AWS_LAMBDA_FUNCTION_NAME);
   if (!token || typeof token !== 'string' || !/^[a-f0-9]{64}$/i.test(token)) {
     token = crypto.randomBytes(32).toString('hex');
     res.cookie(VOTER_COOKIE_NAME, token, {
       httpOnly: true,
       signed: true,
       sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
+      secure: isSecure,
       maxAge: 365 * 24 * 60 * 60 * 1000,
       path: '/'
     });
