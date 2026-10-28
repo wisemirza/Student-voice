@@ -1,0 +1,17 @@
+{
+  "name": "UWE Bristol Student Voice · DS & AI",
+  "short_name": "Student Voice",
+  "description": "Anonymous student feedback and issue voting for the UWE Bristol Data Science and AI programme.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F7F7",
+  "theme_color": "#C72C41",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

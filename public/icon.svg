@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Student Voice Icon">
+  <rect width="128" height="128" rx="24" fill="#C72C41" />
+  <path d="M28 36C28 29.3726 33.3726 24 40 24H88C94.6274 24 100 29.3726 100 36V72C100 78.6274 94.6274 84 88 84H56L36 102V84H40C33.3726 84 28 78.6274 28 72V36Z" fill="#FFFFFF" />
+  <path d="M64 40L74 56H54L64 40Z" fill="#C72C41" />
+  <rect x="52" y="62" width="24" height="6" rx="3" fill="#C72C41" />
+</svg>

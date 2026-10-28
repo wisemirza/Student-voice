@@ -1,0 +1,111 @@
+rules_version = '2';
+
+// =============================================================================
+// UWE Bristol "Student Voice" - Cloud Firestore Security Rules
+// =============================================================================
+//
+// Architectural Security Model (Server-Only Trusted Backend):
+// -----------------------------------------------------------------------------
+// 1. All Firestore reads, writes, transactions, and batch updates are executed
+//    exclusively server-side by the Node.js Express backend (`src/db.js`) using
+//    the privileged `firebase-admin` Admin SDK, which authenticates via Google
+//    Cloud service account / Application Default Credentials and bypasses
+//    client-side Firestore Security Rules by design.
+// 2. No browser or mobile Firebase Client SDK is permitted to connect to, read
+//    from, or write to Cloud Firestore directly:
+//    - Anonymous student voter/reporter tokens live strictly in signed `HttpOnly`
+//      cookies (`sv_voter_token`) and are HMAC-SHA256 hashed on the server
+//      before storage (`creator_token_hash`, `voter_token_hash`,
+//      `reporter_token_hash`). Direct client reads would leak token hashes,
+//      hidden/removed issues, or confidential moderation reports.
+//    - Moderator sessions (`sv_admin_session`), rate limiting, honeypot spam
+//      checks, PII filtering, and atomic vote/sequence transactions are all
+//      enforced strictly on the Express server.
+// 3. Consequently, these rules enforce a strict Zero-Trust Default Deny posture
+//    (`allow read, write: if false;`) across every known collection and a
+//    catch-all recursive wildcard (`/{document=**}`).
+//
+// =============================================================================
+// Assumed Data Model (Enforced Server-Side via `src/db.js` & `src/security.js`)
+// =============================================================================
+//
+// Collection: _meta
+// Document ID: {doc} (e.g., "counters")
+// Fields:
+//   - issue_seq: int (required, >= 1) - Monotonic sequence counter for issue IDs
+//
+// Collection: issues
+// Document ID: {issueId} (numeric string matching `id`, e.g., "1")
+// Fields:
+//   - id: int (required, > 0, immutable) - Numeric issue ID
+//   - title: string (required, 0..140 chars, immutable) - Optional short title
+//   - description: string (required, 4..2000 chars, immutable) - Issue feedback body
+//   - status: string (required, enum: 'active' | 'hidden' | 'removed') - Visibility
+//   - vote_count: int (required, >= 0) - Atomic upvote count
+//   - creator_token_hash: string (required, 64-char hex HMAC-SHA256, server-only)
+//   - created_at: string (required, ISO 8601 UTC timestamp, immutable)
+//   - updated_at: string (required, ISO 8601 UTC timestamp)
+//
+// Collection: votes
+// Document ID: {voteId} (composite "${issue_id}_${voter_token_hash}")
+// Fields:
+//   - issue_id: int (required, > 0, immutable) - Target issue ID
+//   - voter_token_hash: string (required, 64-char hex HMAC-SHA256, server-only)
+//   - created_at: string (required, ISO 8601 UTC timestamp, immutable)
+//
+// Collection: reports
+// Document ID: {reportId} (composite "${issue_id}_${reporter_token_hash}")
+// Fields:
+//   - issue_id: int (required, > 0, immutable) - Target issue ID
+//   - reporter_token_hash: string (required, 64-char hex HMAC-SHA256, server-only)
+//   - reason: string (required, enum: 'personal_info' | 'spam' | 'harassment' | 'off_topic' | 'other')
+//   - details: string (required, 0..500 chars) - Optional moderator context
+//   - status: string (required, enum: 'open' | 'resolved') - Moderation status
+//   - created_at: string (required, ISO 8601 UTC timestamp)
+//
+// Collection: issue_translations
+// Document ID: {translationId} (composite "${issue_id}_${target_lang}")
+// Fields:
+//   - issue_id: int (required, > 0, immutable) - Source issue ID
+//   - target_lang: string (required, enum: 'en' | 'zh-CN', immutable) - Language code
+//   - translated_title: string (required, 0..500 chars) - Localized title
+//   - translated_description: string (required, 1..5000 chars) - Localized body
+//   - provider: string (required) - Translation provider identifier
+//   - created_at: string (required, ISO 8601 UTC timestamp)
+//
+// =============================================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Internal sequence counters & metadata - Admin SDK server-only access
+    match /_meta/{doc} {
+      allow read, write: if false;
+    }
+
+    // Student feedback issues (contains server-private creator_token_hash & hidden/removed items)
+    match /issues/{issueId} {
+      allow read, write: if false;
+    }
+
+    // Anonymous upvote records (contains server-private voter_token_hash)
+    match /votes/{voteId} {
+      allow read, write: if false;
+    }
+
+    // Moderation abuse/PII reports (contains server-private reporter_token_hash & moderator state)
+    match /reports/{reportId} {
+      allow read, write: if false;
+    }
+
+    // Cached bilingual issue translations ('en' / 'zh-CN') - managed strictly by backend
+    match /issue_translations/{translationId} {
+      allow read, write: if false;
+    }
+
+    // Default deny fallback for all other collections, documents, and subcollections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

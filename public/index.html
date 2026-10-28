@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F7F7F7" />
+  <meta name="description" content="Anonymous student feedback for UWE Bristol Data Science &amp; AI." />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/icon.svg" />
+  <title>Student Voice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;600;700&amp;display=swap" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/theme.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-top-row">
+        <h1 class="app-title" id="ui-app-title">Student Voice</h1>
+        <div class="lang-switcher" role="group" aria-label="Language / 语言">
+          <button type="button" class="lang-btn active" id="lang-en-btn" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" class="lang-btn" id="lang-zh-btn" data-lang="zh-CN" aria-pressed="false">中文</button>
+        </div>
+      </div>
+      <p class="app-subtitle" id="ui-app-subtitle">UWE Data Science &amp; AI · Students Share What Needs Improving</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="status-banner" class="alert-banner" role="status" aria-live="polite" hidden>
+      <span id="status-banner-text"></span>
+      <button type="button" class="alert-close" id="status-banner-close" aria-label="Dismiss">×</button>
+    </div>
+
+    <!-- Simple Always-Ready Issue Composer -->
+    <form id="issue-form" class="composer-card" novalidate>
+      <div class="hp-field" aria-hidden="true">
+        <label for="issue-website-url">Website</label>
+        <input type="text" id="issue-website-url" name="website_url" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <input
+        type="text"
+        id="issue-title"
+        name="title"
+        class="composer-title-input"
+        maxlength="140"
+        aria-label="Title (optional)"
+        placeholder="Title (optional)"
+      />
+
+      <textarea
+        id="issue-description"
+        name="description"
+        class="composer-textarea"
+        required
+        maxlength="2000"
+        aria-label="Issue description"
+        placeholder="Write your issue or suggestion plainly..."
+      ></textarea>
+
+      <div class="composer-footer">
+        <span class="composer-muted-note" id="ui-composer-muted">Anonymous · No login required · Avoid names or IDs</span>
+        <button type="submit" class="btn btn-primary" id="submit-form-btn">Submit</button>
+      </div>
+    </form>
+
+    <!-- Minimal List Header -->
+    <div class="list-header">
+      <span class="list-count" id="issues-count-label"></span>
+      <div class="sort-group" role="group" aria-label="Sort">
+        <button type="button" class="sort-btn active" id="sort-popular-btn" data-sort="popular" aria-pressed="true">Top</button>
+        <button type="button" class="sort-btn" id="sort-newest-btn" data-sort="newest" aria-pressed="false">New</button>
+      </div>
+    </div>
+
+    <!-- Issues List -->
+    <section aria-live="polite">
+      <div id="issues-list" class="issues-list">
+        <div class="empty-state">Loading…</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Delete Post Confirmation Modal -->
+  <div id="delete-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="ui-delete-modal-title" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title" id="ui-delete-modal-title">Delete this post?</h2>
+      </div>
+      <p id="ui-delete-modal-body" style="margin: 0 0 1.1rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.55;">
+        Are you sure you want to delete this post? Deleting cannot be undone. You only have 1 hour after posting to delete a post. After 1 hour, it stays permanently.
+      </p>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary btn-sm" id="cancel-delete-btn">Cancel</button>
+        <button type="button" class="btn btn-primary btn-sm" id="confirm-delete-modal-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimal Report Modal -->
+  <div id="report-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="ui-report-modal-title" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title" id="ui-report-modal-title">Report Issue</h2>
+      </div>
+      <form id="report-form">
+        <input type="hidden" id="report-issue-id" />
+        <div class="form-group">
+          <label class="form-label" for="report-reason" id="ui-report-reason-label">Reason</label>
+          <select id="report-reason" class="form-select" required></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="report-details" id="ui-report-details-label">Note (optional)</label>
+          <textarea id="report-details" class="form-textarea" maxlength="500" rows="2"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary btn-sm" id="cancel-report-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm" id="submit-report-btn">Report</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Quiet 1-Line Footer -->
+  <footer class="minimal-footer">
+    <span id="ui-footer-anon">Anonymous feedback</span>
+    <span> · </span>
+    <a href="/privacy" id="ui-footer-privacy">Privacy Policy</a>
+  </footer>
+
+  <script src="/i18n.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

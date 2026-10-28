@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F7F7F7" />
+  <title>Privacy Policy · Student Voice</title>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;600;700&amp;display=swap" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/theme.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-top-row">
+        <h1 class="app-title" id="priv-title">Privacy Policy</h1>
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <div class="lang-switcher" role="group" aria-label="Language / 语言">
+            <button type="button" class="lang-btn active" id="priv-en-btn">EN</button>
+            <button type="button" class="lang-btn" id="priv-zh-btn">中文</button>
+          </div>
+          <a href="/" class="btn btn-secondary btn-sm" id="priv-back-btn">← Back</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="composer-card" style="line-height: 1.65;" id="priv-content"></div>
+  </main>
+
+  <script src="/i18n.js"></script>
+  <script src="/privacy.js"></script>
+</body>
+</html>
