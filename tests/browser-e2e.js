@@ -186,8 +186,8 @@ async function runBrowserE2E() {
     );
     assert.equal(
       await cdp.evaluate(`getComputedStyle(document.getElementById('submit-form-btn')).backgroundColor`),
-      'rgb(199, 44, 65)',
-      'Primary action button should use #C72C41'
+      'rgb(214, 0, 43)',
+      'Primary action button should use #D6002B'
     );
 
     // Emulate OS switching to Dark
@@ -202,18 +202,18 @@ async function runBrowserE2E() {
     );
     assert.equal(
       await cdp.evaluate(`getComputedStyle(document.body).backgroundColor`),
-      'rgb(17, 17, 17)',
-      'Dark theme page background should be #111111'
+      'rgb(5, 5, 5)',
+      'Dark theme page background should be #050505'
     );
     assert.equal(
       await cdp.evaluate(`getComputedStyle(document.querySelector('.site-header')).backgroundColor`),
-      'rgb(17, 17, 17)',
-      'Header background must match dark page background #111111'
+      'rgb(5, 5, 5)',
+      'Header background must match dark page background #050505'
     );
     assert.equal(
       await cdp.evaluate(`getComputedStyle(document.getElementById('issue-form')).backgroundColor`),
-      'rgb(26, 26, 26)',
-      'Dark theme card/form surface should be #1A1A1A'
+      'rgb(31, 31, 35)',
+      'Dark theme card/form surface should be #1F1F23'
     );
 
     // Check mobile 16px input font size and zero horizontal overflow

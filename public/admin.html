@@ -22,22 +22,22 @@
     }
     .status-active { background: #ECFDF5; color: #065F46; }
     .status-hidden { background: #FFFBEB; color: #92400E; }
-    .status-removed { background: #FEF2F2; color: #991B1B; }
+    .status-removed { background: rgba(255, 0, 51, 0.08); color: #D6002B; }
     [data-theme="dark"] .status-active { background: #0E261C; color: #86EFAC; }
     [data-theme="dark"] .status-hidden { background: #2B210B; color: #FDE68A; }
-    [data-theme="dark"] .status-removed { background: #2D161A; color: #FCA5A5; }
+    [data-theme="dark"] .status-removed { background: rgba(255, 0, 51, 0.16); color: #FF4D6D; }
     .report-badge {
       display: inline-block;
       font-size: 0.72rem;
       font-weight: 700;
       padding: 0.12rem 0.5rem;
       border-radius: 999px;
-      background: #FEF2F2;
-      color: #991B1B;
+      background: rgba(255, 0, 51, 0.08);
+      color: #D6002B;
     }
     [data-theme="dark"] .report-badge {
-      background: #2D161A;
-      color: #FCA5A5;
+      background: rgba(255, 0, 51, 0.16);
+      color: #FF4D6D;
     }
     .reports-box {
       background: var(--bg-subtle);
@@ -76,6 +76,11 @@
       border-radius: 999px;
       cursor: pointer;
       white-space: nowrap;
+      transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+    }
+    .filter-pill:hover:not(.active) {
+      color: var(--text-primary);
+      border-color: var(--brand-accent);
     }
     .filter-pill.active {
       background: var(--brand-primary);

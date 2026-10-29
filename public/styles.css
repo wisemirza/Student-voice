@@ -9,14 +9,15 @@
   --text-muted: #666666;
   --border-color: #DDDDDD;
 
-  --brand-accent: #E84253;
-  --brand-primary: #C72C41;
-  --brand-primary-hover: #AD2437;
+  --brand-accent: #FF0033;
+  --brand-accent-hover: #E6002E;
+  --brand-primary: #D6002B;
+  --brand-primary-hover: #BA0025;
   --brand-on-primary: #FFFFFF;
   --btn-primary-text: #FFFFFF;
 
-  --uwe-red: #C72C41;
-  --uwe-red-hover: #AD2437;
+  --uwe-red: #FF0033;
+  --uwe-red-hover: #E6002E;
 
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04);
   --shadow-modal: 0 8px 24px rgba(0, 0, 0, 0.12);
@@ -31,23 +32,24 @@
 }
 
 [data-theme="dark"] {
-  --bg-page: #111111;
-  --bg-surface: #1A1A1A;
-  --bg-subtle: #252525;
-  --bg-hover: #2B2B2B;
-  --text-primary: #F5F5F5;
-  --text-secondary: #B5B5B5;
-  --text-muted: #B5B5B5;
-  --border-color: #343434;
+  --bg-page: #050505;
+  --bg-surface: #1F1F23;
+  --bg-subtle: #29292E;
+  --bg-hover: #303036;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B8B8BE;
+  --text-muted: #B8B8BE;
+  --border-color: #343438;
 
-  --brand-accent: #E84253;
-  --brand-primary: #C72C41;
-  --brand-primary-hover: #AD2437;
+  --brand-accent: #FF0033;
+  --brand-accent-hover: #E6002E;
+  --brand-primary: #D6002B;
+  --brand-primary-hover: #BA0025;
   --brand-on-primary: #FFFFFF;
   --btn-primary-text: #FFFFFF;
 
-  --uwe-red: #C72C41;
-  --uwe-red-hover: #AD2437;
+  --uwe-red: #FF0033;
+  --uwe-red-hover: #E6002E;
 
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.32);
   --shadow-modal: 0 12px 32px rgba(0, 0, 0, 0.5);
@@ -56,23 +58,24 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg-page: #111111;
-    --bg-surface: #1A1A1A;
-    --bg-subtle: #252525;
-    --bg-hover: #2B2B2B;
-    --text-primary: #F5F5F5;
-    --text-secondary: #B5B5B5;
-    --text-muted: #B5B5B5;
-    --border-color: #343434;
+    --bg-page: #050505;
+    --bg-surface: #1F1F23;
+    --bg-subtle: #29292E;
+    --bg-hover: #303036;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B8B8BE;
+    --text-muted: #B8B8BE;
+    --border-color: #343438;
 
-    --brand-accent: #E84253;
-    --brand-primary: #C72C41;
-    --brand-primary-hover: #AD2437;
+    --brand-accent: #FF0033;
+    --brand-accent-hover: #E6002E;
+    --brand-primary: #D6002B;
+    --brand-primary-hover: #BA0025;
     --brand-on-primary: #FFFFFF;
     --btn-primary-text: #FFFFFF;
 
-    --uwe-red: #C72C41;
-    --uwe-red-hover: #AD2437;
+    --uwe-red: #FF0033;
+    --uwe-red-hover: #E6002E;
 
     --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.32);
     --shadow-modal: 0 12px 32px rgba(0, 0, 0, 0.5);
@@ -289,10 +292,6 @@ main.container {
     transform: translate(-50%, -16px) scale(0.92);
   }
 }
-    opacity: 0;
-    transform: translate(-50%, -8px);
-  }
-}
 
 .alert-close {
   background: transparent;
@@ -312,7 +311,7 @@ main.container {
 }
 
 .alert-close:hover {
-  color: var(--text-primary);
+  color: var(--brand-accent);
   background-color: var(--bg-hover);
 }
 
@@ -349,7 +348,7 @@ main.container {
 }
 
 .composer-title-input:focus {
-  border-bottom-color: var(--brand-primary);
+  border-bottom-color: var(--brand-accent);
 }
 
 .composer-title-input::placeholder {
@@ -600,6 +599,11 @@ main.container {
   transform: translateY(-2px) scale(1.03);
 }
 
+.vote-btn:hover:not(:disabled) .vote-icon,
+.vote-btn:hover:not(:disabled) .vote-count {
+  color: var(--brand-accent);
+}
+
 .vote-btn:active:not(:disabled) {
   transform: scale(0.93) translateY(0);
 }
@@ -742,7 +746,7 @@ main.container {
 
 .delete-icon-btn:hover:not(:disabled) {
   background: var(--bg-hover);
-  color: var(--brand-primary);
+  color: var(--brand-accent);
   transform: scale(1.14);
 }
 
@@ -856,7 +860,7 @@ main.container {
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
-  border-color: var(--brand-primary);
+  border-color: var(--brand-accent);
   background: var(--bg-surface);
   outline: none;
 }
@@ -880,10 +884,11 @@ main.container {
   color: var(--text-secondary);
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.15s ease;
 }
 
 .minimal-footer a:hover {
-  color: var(--text-primary);
+  color: var(--brand-accent);
   text-decoration: underline;
 }
 
