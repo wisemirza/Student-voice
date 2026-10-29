@@ -18,7 +18,7 @@
           title: 'Who operates Student Voice?',
           html: `<p>Student Voice is a bilingual feedback website intended to help students on the UWE Bristol Data Science and Artificial Intelligence programme raise course-level concerns, suggest improvements and vote on issues they agree with.</p>
 <p><strong>Data controller:</strong> Mohammad Waiz Mirza</p>
-<p><strong>Contact:</strong> <a href="mailto:Wisecrafts81@gmail.com">Wisecrafts81@gmail.com</a></p>
+<p><strong>Contact:</strong> <a href="mailto:Mohammad2.Mirza@live.uwe.ac.uk">Mohammad2.Mirza@live.uwe.ac.uk</a></p>
 <p>Student Voice is a student-led feedback tool. It must not be presented as an officially operated or endorsed UWE Bristol service unless this has been confirmed by the University or The Students' Union at UWE.</p>
 <p>This notice explains what information the website processes, why it is used, which service providers may receive it, how long it is kept and what choices and rights you have.</p>`
         },
@@ -158,7 +158,7 @@
 <p>These rights are subject to the conditions and exceptions set out in data protection law.</p>
 <p>Because Student Voice does not use user accounts, you may need to provide enough information for the operator to locate the relevant record. Do not send passwords, voter tokens or unnecessary personal information with a request.</p>
 <p>To exercise your rights or ask questions about privacy, contact:</p>
-<p><strong>Privacy contact:</strong> <a href="mailto:Wisecrafts81@gmail.com">Wisecrafts81@gmail.com</a></p>
+<p><strong>Privacy contact:</strong> <a href="mailto:Mohammad2.Mirza@live.uwe.ac.uk">Mohammad2.Mirza@live.uwe.ac.uk</a></p>
 <p>The controller will respond within the time required by applicable law. Requests will be handled securely and only the information reasonably needed to locate and assess the request will be sought.</p>
 <p>You may also complain to the UK Information Commissioner's Office: <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener">https://ico.org.uk/make-a-complaint/</a></p>`
         },
@@ -173,7 +173,7 @@
           title: 'Contact',
           html: `<p>For privacy questions, access requests, deletion requests or complaints about this service, contact:</p>
 <p><strong>Controller:</strong> Mohammad Waiz Mirza</p>
-<p><strong>Email:</strong> <a href="mailto:Wisecrafts81@gmail.com">Wisecrafts81@gmail.com</a></p>`
+<p><strong>Email:</strong> <a href="mailto:Mohammad2.Mirza@live.uwe.ac.uk">Mohammad2.Mirza@live.uwe.ac.uk</a></p>`
         }
       ]
     },
@@ -192,7 +192,7 @@
           title: '谁负责运营学生之声？',
           html: `<p>“学生之声”（Student Voice）是一个双语反馈网站，旨在帮助 UWE Bristol 数据科学与人工智能专业的学生提交课程相关意见、建议改进事项，并对自己认同的问题投票。</p>
 <p><strong>数据控制者：</strong> Mohammad Waiz Mirza</p>
-<p><strong>联系方式：</strong> <a href="mailto:Wisecrafts81@gmail.com">Wisecrafts81@gmail.com</a></p>
+<p><strong>联系方式：</strong> <a href="mailto:Mohammad2.Mirza@live.uwe.ac.uk">Mohammad2.Mirza@live.uwe.ac.uk</a></p>
 <p>学生之声是一个以学生为主导的反馈工具。除非已获得大学或学生会的正式确认，否则不应将其描述为由 UWE Bristol 官方运营或认可的服务。</p>
 <p>本声明说明网站处理哪些信息、处理目的、可能接收信息的服务提供商、数据保留期限，以及用户可以行使的权利。</p>`
         },
@@ -332,7 +332,7 @@
 <p>这些权利须遵循数据保护法律中的条件及例外。</p>
 <p>由于学生之声不使用用户账户，运营者可能需要您提供足够的信息来定位相关记录。提交请求时请勿发送密码、投票令牌或不必要的个人信息。</p>
 <p>如需行使权利或咨询隐私问题，请联系：</p>
-<p><strong>隐私联系人：</strong> <a href="mailto:Wisecrafts81@gmail.com">Wisecrafts81@gmail.com</a></p>
+<p><strong>隐私联系人：</strong> <a href="mailto:Mohammad2.Mirza@live.uwe.ac.uk">Mohammad2.Mirza@live.uwe.ac.uk</a></p>
 <p>控制者将按照适用法律规定的期限回复。请求将得到安全处理，运营者只会要求合理定位和评估请求所需的信息。</p>
 <p>您也可以向英国信息专员办公室投诉：<a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener">https://ico.org.uk/make-a-complaint/</a></p>`
         },
@@ -347,7 +347,7 @@
           title: '联系方式',
           html: `<p>如有隐私问题、访问请求、删除请求或对本服务的投诉，请联系：</p>
 <p><strong>数据控制者：</strong> Mohammad Waiz Mirza</p>
-<p><strong>邮箱：</strong> <a href="mailto:Wisecrafts81@gmail.com">Wisecrafts81@gmail.com</a></p>`
+<p><strong>邮箱：</strong> <a href="mailto:Mohammad2.Mirza@live.uwe.ac.uk">Mohammad2.Mirza@live.uwe.ac.uk</a></p>`
         }
       ]
     }

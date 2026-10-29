@@ -370,7 +370,7 @@ async function runBrowserE2E() {
 
     const privText = await cdp.evaluate(`document.getElementById('priv-content').innerText`);
     assert(privText.includes('Mohammad Waiz Mirza'), 'Privacy page must display data controller name');
-    assert(privText.includes('Wisecrafts81@gmail.com'), 'Privacy page must display privacy contact email');
+    assert(privText.includes('Mohammad2.Mirza@live.uwe.ac.uk'), 'Privacy page must display privacy contact email');
 
     await cdp.send('Page.navigate', { url: `${appUrl}/admin` });
     await sleep(250);
