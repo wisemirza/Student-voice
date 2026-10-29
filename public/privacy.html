@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#F7F7F7" />
-  <title>Privacy Policy · Student Voice</title>
+  <title>Privacy Notice · Student Voice</title>
   <link rel="icon" href="/icon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,12 +12,109 @@
   <link rel="stylesheet" href="/styles.css" />
   <script src="/theme.js"></script>
   <script defer src="https://cloud.umami.is/script.js" data-website-id="41e1e41c-ce8d-4a4f-b2cf-ed9a5bef83ba"></script>
+  <style>
+    .privacy-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.6rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow-card);
+      line-height: 1.68;
+      color: var(--text-primary);
+    }
+    .privacy-card h1 {
+      font-size: 1.45rem;
+      margin: 0 0 0.4rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+    }
+    .privacy-card h2 {
+      font-size: 1.15rem;
+      margin: 1.8rem 0 0.6rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.25rem;
+    }
+    .privacy-card h2:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+    .privacy-card h3 {
+      font-size: 1rem;
+      margin: 1.1rem 0 0.4rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .privacy-card p {
+      margin: 0.55rem 0;
+      font-size: 0.93rem;
+      color: var(--text-secondary);
+    }
+    .privacy-card ul {
+      margin: 0.55rem 0 0.85rem 1.25rem;
+      padding: 0;
+      font-size: 0.93rem;
+      color: var(--text-secondary);
+    }
+    .privacy-card li {
+      margin-bottom: 0.35rem;
+    }
+    .privacy-card strong {
+      color: var(--text-primary);
+    }
+    .privacy-card code {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 0.12rem 0.35rem;
+      font-size: 0.86rem;
+      color: var(--text-primary);
+    }
+    .privacy-meta {
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    .privacy-card a {
+      color: var(--brand-accent);
+      text-decoration: underline;
+      text-underline-offset: 2.5px;
+      word-break: break-all;
+    }
+    .privacy-card a:hover {
+      color: var(--brand-primary);
+    }
+    .analytics-control-box {
+      margin: 1.1rem 0 1.35rem;
+      padding: 1rem 1.15rem;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+    }
+    .analytics-control-label {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 600;
+      font-size: 0.93rem;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+    .analytics-control-desc {
+      margin: 0.35rem 0 0 1.85rem;
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
-    <div class="container header-inner">
+    <div class="container header-inner" style="max-width: 760px;">
       <div class="header-top-row">
-        <h1 class="app-title" id="priv-title">Privacy Policy</h1>
+        <h1 class="app-title" id="priv-title">Privacy Notice</h1>
         <div style="display:flex; align-items:center; gap:0.5rem;">
           <div class="lang-switcher" role="group" aria-label="Language / 语言">
             <button type="button" class="lang-btn active" id="priv-en-btn">EN</button>
@@ -29,8 +126,8 @@
     </div>
   </header>
 
-  <main class="container">
-    <div class="composer-card" style="line-height: 1.65;" id="priv-content"></div>
+  <main class="container" style="max-width: 760px;">
+    <div class="privacy-card" id="priv-content"></div>
   </main>
 
   <script src="/i18n.js"></script>
