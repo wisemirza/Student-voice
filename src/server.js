@@ -63,11 +63,19 @@ function createApp() {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", 'https://challenges.cloudflare.com'],
+          scriptSrc: [
+            "'self'",
+            'https://challenges.cloudflare.com',
+            'https://cloud.umami.is'
+          ],
           styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
           fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
           imgSrc: ["'self'", 'data:'],
-          connectSrc: ["'self'"],
+          connectSrc: [
+            "'self'",
+            'https://cloud.umami.is',
+            'https://api-gateway.umami.dev'
+          ],
           frameSrc: ['https://challenges.cloudflare.com'],
           objectSrc: ["'none'"],
           baseUri: ["'self'"],
