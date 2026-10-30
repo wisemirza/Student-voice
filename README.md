@@ -1,51 +1,78 @@
-# Student Voice - UWE Bristol (Data Science & AI)
+# Student Voice
 
-A minimal, clutter-free, mobile-first anonymous student feedback and voting web app for the **UWE Bristol Data Science and Artificial Intelligence** programme, connected to **Firebase Cloud Firestore**.
+A simple, bilingual student feedback platform built for the **UWE Bristol Data Science and Artificial Intelligence** programme.
 
----
+Share feedback, raise concerns, read what other students think, and vote on issues that matter to you.
 
-## 1. Key Design & Architecture Highlights
+<p align="center">
+  <a href="https://studentvc.netlify.app/">
+    <strong>🌐 Try Student Voice</strong>
+  </a>
+</p>
 
-- **Ultra-Clean, Frictionless Student Interface (`public/index.html`, `public/app.js`, `public/styles.css`)**:
-  - Always-ready composer right at the top: students simply type their issue plainly and tap **Submit** (adding a title is completely optional, and there are no category dropdowns or account prompts).
-  - Subtle, muted anonymity reminder; full privacy details live on a separate `/privacy` page so the main screen stays completely uncluttered.
-- **Automatic Screen-Wide English & Chinese (`EN` | `中文`)**:
-  - Selecting `中文` or `EN` in the top bar translates **all text on the screen automatically** (including every user-submitted issue) via server-side translation (`src/translate.js`) with permanent caching in Firestore.
-- **Admin-Only QR Code & Moderation (`/admin`)**:
-  - Sharing tools (`Share & QR Code`, SVG download, copyable student link) and moderation controls (`Hide`, `Remove`, `Restore`, `Dismiss Reports`) live exclusively inside the password-protected Admin Console (`/admin`).
-- **Firebase Cloud Firestore Storage (`src/db.js`, `firestore.rules`)**:
-  - Connected to Firebase project `studio-9101762883-d0a0e` (`student-voice-db` in `europe-west2`, London).
-  - All reads and writes run strictly through the trusted Node.js `firebase-admin` backend using atomic Firestore transactions (`runTransaction`) and deterministic composite vote IDs (`${issueId}_${voterTokenHash}`). Direct browser SDK access is locked down in `firestore.rules` (`allow read, write: if false;`).
+## What can you do?
 
----
+**1. Share feedback**
 
-## 2. Running Locally
+Submit issues, concerns or suggestions about your course, modules, coursework and student experience.
+
+**2. Read and vote**
+
+See feedback submitted by other students and upvote the issues you agree with. You can participate without submitting anything yourself.
+
+**3. Use English or Chinese**
+
+Switch between English and Simplified Chinese. The platform can also translate submitted feedback to make it easier for everyone to understand.
+
+## Designed for students
+
+- No account or login required.
+- Simple, mobile-friendly interface.
+- English and Simplified Chinese support.
+- Community voting to highlight common concerns.
+- Moderation tools to help manage submitted feedback.
+
+## Privacy
+
+You do not need to provide your name, student number or email address to use the platform.
+
+Submitted feedback is publicly visible, so please do not include personal, confidential or sensitive information.
+
+Read the [Privacy Notice](https://studentvc.netlify.app/privacy) before using the platform.
+
+## Built with
+
+- HTML, CSS and JavaScript
+- Node.js
+- Firebase Cloud Firestore
+
+## Run locally
+
+To run the project on your own machine:
 
 ```bash
-# Start development server with live reload (http://localhost:3000)
+# Clone the repository
+git clone https://github.com/wisemirza/Student-voice.git
+
+# Navigate into the project
+cd Student-voice
+
+# Install dependencies
+npm install
+
+# Configure your environment variables
+# Copy .env.example to .env and fill in the required values.
+
+# Start the development server
 npm run dev
-
-# Or start production server
-npm start
-
-# Run automated API & real headless Chrome E2E tests
-npm test
 ```
 
-- **Student App**: `http://localhost:3000`
-- **Admin Console (Moderation + QR Code)**: `http://localhost:3000/admin`
-- **Privacy Notice Page**: `http://localhost:3000/privacy`
+The application will be available at:
 
----
+`http://localhost:3000`
 
-## 3. Environment Variables (`.env.example`)
+## Project
 
-| Variable | Required | Description |
-| :--- | :--- | :--- |
-| `PORT` | Optional | HTTP port (default `3000`). |
-| `COOKIE_SECRET` | **Yes (Prod)** | Secret key used to sign `HttpOnly` voter & admin cookies and HMAC-hash voter tokens. |
-| `ADMIN_PASSWORD` | **Yes (Prod)** | Password for `/admin` moderation and QR sharing console. |
-| `FIREBASE_PROJECT_ID` | **Yes** | Firebase Project ID (`studio-9101762883-d0a0e`). |
-| `FIREBASE_DATABASE_ID` | **Yes** | Firestore database ID (`student-voice-db`). |
-| `FIREBASE_SERVICE_ACCOUNT_PATH` | Local Dev | Path to gitignored `./service-account.json` (not needed on Cloud Run / Firebase App Hosting where Application Default Credentials are automatic). |
-| `TRANSLATION_PROVIDER` | Optional | `auto` (default automatic translation), `google`, `deepl`, or `openai`. |
+**Student Voice** was independently developed to make it easier for Chinese students to share feedback and make their concerns heard.
+
+[Open Student Voice](https://studentvc.netlify.app/) · [View the GitHub Repository](https://github.com/wisemirza/Student-voice)
