@@ -4,7 +4,7 @@ A simple, bilingual student feedback platform built for the **UWE Bristol Data S
 
 Share feedback, raise concerns, read what other students think, and vote on issues that matter to you.
 
-<p align="center">
+<p align="left">
   <a href="https://studentvc.netlify.app/">
     <strong>🌐 Try Student Voice</strong>
   </a>
